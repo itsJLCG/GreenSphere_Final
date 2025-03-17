@@ -872,9 +872,10 @@ const AdminHome = () => {
                   </Typography>
                 }
                 data={users.map(user => [
-                  user.name, // Plain text name for both display and export
+                  user.name,
                   user.email,
-                  user.role, // Plain text role for both display and export
+                  user.role,
+                  user.gender, // Make sure this matches the property name in your User model
                   <Button
                     variant="contained"
                     sx={{
@@ -940,6 +941,31 @@ const AdminHome = () => {
                           }}
                         >
                           {value}
+                        </Typography>
+                      )
+                    }
+                  },
+                  {
+                    name: "Gender",
+                    options: {
+                      filter: true,
+                      sort: true,
+                      setCellProps: () => ({
+                        style: { minWidth: "120px", maxWidth: "120px" }
+                      }),
+                      setCellHeaderProps: () => ({
+                        style: { minWidth: "120px", maxWidth: "120px" }
+                      }),
+                      customBodyRender: (value) => (
+                        <Typography
+                          sx={{
+                            color: '#666',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1
+                          }}
+                        >
+                          {value || 'Not specified'}
                         </Typography>
                       )
                     }

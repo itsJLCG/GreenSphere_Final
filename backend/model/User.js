@@ -19,10 +19,15 @@ const UserSchema = new mongoose.Schema({
         min: 6,
         max: 1024
     },
+    gender: {
+        type: String,
+        enum: ["Male", "Female"],
+        required: true
+    },
     role: {
         type: String,
-        enum: ["user", "admin"], // Restricts role values
-        default: "user" // Sets default role
+        enum: ["user", "admin"],
+        default: "user"
     },
     otp: {
         type: String,
@@ -38,6 +43,4 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-//palitan yung "users" ng "User"
 module.exports = mongoose.model("User", UserSchema);
-

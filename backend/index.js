@@ -47,21 +47,29 @@ app.use(session({
 
 app.post("/signup", async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, gender } = req.body;
         const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "Email already exists" });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const role = "user"; // Default role is user
+        const role = "user";
         let otp = null;
         let otpExpires = null;
         if (role === "user") {
             otp = generateOtp();
-            otpExpires = Date.now() + 3600000; // 1 hour from now
+            otpExpires = Date.now() + 3600000;
             sendOtpEmail(email, otp);
         }
-        const newUser = new UserModel({ name, email, password: hashedPassword, role, otp, otpExpires });
+        const newUser = new UserModel({ 
+            name, 
+            email, 
+            password: hashedPassword, 
+            gender, // Add gender field
+            role, 
+            otp, 
+            otpExpires 
+        });
         const savedUser = await newUser.save();
         res.status(201).json({ message: "User created successfully. Please check your email for the OTP if you are a user." });
     } catch (error) {

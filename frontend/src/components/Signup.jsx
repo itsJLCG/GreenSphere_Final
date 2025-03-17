@@ -7,22 +7,27 @@ import {
   Button,
   Box,
   Link,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import greensphereLogo from '../assets/images/greenspherelogo.png'; // Import the logo
+import greensphereLogo from '../assets/images/greenspherelogo.png';
 import greensphereImage from "../assets/images/greensphereloginsignup.png";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/signup", { name, email, password })
+      .post("http://localhost:3001/signup", { name, email, password, gender })
       .then((result) => {
         if (result.status === 201) {
           console.log("User created successfully");
@@ -56,15 +61,15 @@ const Signup = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "2rem",
+          padding: "1rem",
         }}
       >
         {/* Logo */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 3 }}>
           <img
             src={greensphereLogo}
             alt="GreenSphere Logo"
-            style={{ width: "150px" }}
+            style={{ width: "100px" }}
           />
         </Box>
         <Paper
@@ -95,7 +100,7 @@ const Signup = () => {
               mb: 3,
             }}
           >
-            Let’s get started!
+            Let's get started!
           </Typography>
           <form onSubmit={handleSignup}>
             <TextField
@@ -130,6 +135,29 @@ const Signup = () => {
                 },
               }}
             />
+            <FormControl 
+              fullWidth 
+              required 
+              sx={{ 
+                mb: 2,
+                "& .MuiInputLabel-root": { color: "#CCCCCC" },
+                "& .MuiOutlinedInput-root": {
+                  color: "#FFFFFF",
+                  "& fieldset": { borderColor: "#3333FF" },
+                },
+                "& .MuiSelect-icon": { color: "#CCCCCC" },
+              }}
+            >
+              <InputLabel>Gender</InputLabel>
+              <Select
+                value={gender}
+                label="Gender"
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               onChange={(e) => setPassword(e.target.value)}
               required
